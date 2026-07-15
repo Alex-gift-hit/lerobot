@@ -5,7 +5,7 @@ from ..config import TeleoperatorConfig
 
 @TeleoperatorConfig.register_subclass("es101_leader")
 @dataclass
-class Es101LeaderTeleopConfig:
+class Es101LeaderConfig(TeleoperatorConfig):
     """Base configuration class for ES Leader teleoperators."""
 
     # Port to connect to the arm

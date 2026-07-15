@@ -9,7 +9,7 @@ from lerobot.motors.feetech import (
 from lerobot.utils.decorators import check_if_already_connected, check_if_not_connected
 
 from ..teleoperator import Teleoperator
-from .config_es101_leader import Es101LeaderTeleopConfig
+from .config_es101_leader import Es101LeaderConfig
 
 logger = logging.getLogger(__name__)
 
@@ -17,10 +17,10 @@ logger = logging.getLogger(__name__)
 class Es101Leader(Teleoperator):
     """Generic SO leader base for SO-100/101/10X teleoperators."""
 
-    config_class = Es101LeaderTeleopConfig
+    config_class = Es101LeaderConfig
     name = "es101_leader"
 
-    def __init__(self, config: Es101LeaderTeleopConfig):
+    def __init__(self, config: Es101LeaderConfig):
         super().__init__(config)
         self.config = config
         self.bus = FeetechMotorsBus(
