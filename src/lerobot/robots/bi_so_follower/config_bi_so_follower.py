@@ -22,7 +22,7 @@ from ..config import RobotConfig
 from ..so_follower import SOFollowerConfig
 
 
-@RobotConfig.register_subclass("bi_so_follower")
+# @RobotConfig.register_subclass("bi_so_follower")
 @dataclass
 class BiSOFollowerConfig(RobotConfig):
     """Configuration class for Bi SO Follower robots."""

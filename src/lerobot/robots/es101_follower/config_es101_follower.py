@@ -5,9 +5,9 @@ from lerobot.cameras import CameraConfig
 from ..config import RobotConfig
 
 
-@RobotConfig.register_subclass("es101_follower")
+# avoid bi_arm recursive
 @dataclass
-class Es101FollowerRobotConfig(RobotConfig):
+class Es101FollowerConfigBase:
     # Port to connect to the arm
     port: str
 
@@ -23,3 +23,9 @@ class Es101FollowerRobotConfig(RobotConfig):
 
     # Set to `True` for backward compatibility with previous policies/dataset
     use_degrees: bool = True
+
+
+@RobotConfig.register_subclass("es101_follower")
+@dataclass
+class Es101FollowerConfig(RobotConfig, Es101FollowerConfigBase):
+    pass

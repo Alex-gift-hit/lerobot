@@ -5,7 +5,7 @@ from lerobot.types import RobotAction, RobotObservation
 from lerobot.utils.bimanual import BimanualMixin
 from lerobot.utils.decorators import check_if_not_connected
 
-from ..es101_follower import Es101FollowerRobot, Es101FollowerRobotConfig
+from ..es101_follower import Es101Follower, Es101FollowerConfig
 from ..robot import Robot
 from .config_bi_es101_follower import BiEs101FollowerConfig
 
@@ -36,7 +36,7 @@ class BiEs101Follower(BimanualMixin, Robot):
             )
         left_arm_cameras = {**config.left_arm_config.cameras, **config.cameras}
 
-        left_arm_config = Es101FollowerRobotConfig(
+        left_arm_config = Es101FollowerConfig(
             id=f"{config.id}_left" if config.id else None,
             calibration_dir=config.calibration_dir,
             port=config.left_arm_config.port,
@@ -46,7 +46,7 @@ class BiEs101Follower(BimanualMixin, Robot):
             cameras=left_arm_cameras,
         )
 
-        right_arm_config = Es101FollowerRobotConfig(
+        right_arm_config = Es101FollowerConfig(
             id=f"{config.id}_right" if config.id else None,
             calibration_dir=config.calibration_dir,
             port=config.right_arm_config.port,
@@ -56,8 +56,8 @@ class BiEs101Follower(BimanualMixin, Robot):
             cameras=config.right_arm_config.cameras,
         )
 
-        self.left_arm = Es101FollowerRobot(left_arm_config)
-        self.right_arm = Es101FollowerRobot(right_arm_config)
+        self.left_arm = Es101Follower(left_arm_config)
+        self.right_arm = Es101Follower(right_arm_config)
 
         # Only for compatibility with other parts of the codebase that expect a `robot.cameras` attribute
         self.cameras = {**self.left_arm.cameras, **self.right_arm.cameras}

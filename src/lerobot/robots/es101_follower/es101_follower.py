@@ -13,16 +13,16 @@ from lerobot.robots.utils import ensure_safe_goal_position
 from lerobot.types import RobotAction, RobotObservation
 from lerobot.utils.decorators import check_if_already_connected, check_if_not_connected
 
-from .config_es101_follower import Es101FollowerRobotConfig
+from .config_es101_follower import Es101FollowerConfig
 
 logger = logging.getLogger(__name__)
 
 
-class Es101FollowerRobot(Robot):
-    config_class = Es101FollowerRobotConfig
+class Es101Follower(Robot):
+    config_class = Es101FollowerConfig
     name = "es101_follower"
 
-    def __init__(self, config: Es101FollowerRobotConfig):
+    def __init__(self, config: Es101FollowerConfig):
         # For common config eg: id, calibration
         super().__init__(config)
         # For spec config
@@ -142,11 +142,34 @@ class Es101FollowerRobot(Robot):
             self.bus.configure_motors()
             for motor in self.bus.motors:
                 self.bus.write("Operating_Mode", motor, OperatingMode.POSITION.value)
-                # Set P_Coefficient to lower value to avoid shakiness (Default is 32)
-                self.bus.write("P_Coefficient", motor, 16)
+                """
+                self.bus.write("P_Coefficient", motor, 24)
                 # Set I_Coefficient and D_Coefficient to default value 0 and 32
                 self.bus.write("I_Coefficient", motor, 0)
-                self.bus.write("D_Coefficient", motor, 32)
+                self.bus.write("D_Coefficient", motor, 60)
+                """
+                if motor in ["shoulder_pan", "shoulder_lift", "elbow_flex"]:
+                    if motor == "shoulder_pan":
+                        self.bus.write("P_Coefficient", motor, 32)
+                        # Set I_Coefficient and D_Coefficient to default value 0 and 32
+                        self.bus.write("I_Coefficient", motor, 0)
+                        self.bus.write("D_Coefficient", motor, 50)
+                    elif motor == "shoulder_lift":
+                        self.bus.write("P_Coefficient", motor, 28)
+                        # Set I_Coefficient and D_Coefficient to default value 0 and 32
+                        self.bus.write("I_Coefficient", motor, 0)
+                        self.bus.write("D_Coefficient", motor, 55)
+                    else:
+                        self.bus.write("P_Coefficient", motor, 24)
+                        # Set I_Coefficient and D_Coefficient to default value 0 and 32
+                        self.bus.write("I_Coefficient", motor, 0)
+                        self.bus.write("D_Coefficient", motor, 100)
+
+                if motor in ["wrist_flex", "wrist_roll", "wrist_yaw"]:
+                    self.bus.write("P_Coefficient", motor, 32)
+                    # Set I_Coefficient and D_Coefficient to default value 0 and 32
+                    self.bus.write("I_Coefficient", motor, 0)
+                    self.bus.write("D_Coefficient", motor, 42)
 
                 if motor == "gripper":
                     self.bus.write("Max_Torque_Limit", motor, 500)  # 50% of max torque to avoid burnout
