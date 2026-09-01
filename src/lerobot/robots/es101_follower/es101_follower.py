@@ -142,11 +142,11 @@ class Es101Follower(Robot):
             self.bus.configure_motors()
             for motor in self.bus.motors:
                 self.bus.write("Operating_Mode", motor, OperatingMode.POSITION.value)
-                """
-                self.bus.write("P_Coefficient", motor, 24)
+
+                self.bus.write("P_Coefficient", motor, 16)
                 # Set I_Coefficient and D_Coefficient to default value 0 and 32
                 self.bus.write("I_Coefficient", motor, 0)
-                self.bus.write("D_Coefficient", motor, 60)
+                self.bus.write("D_Coefficient", motor, 32)
                 """
                 if motor in ["shoulder_pan", "shoulder_lift", "elbow_flex"]:
                     if motor == "shoulder_pan":
@@ -170,7 +170,7 @@ class Es101Follower(Robot):
                     # Set I_Coefficient and D_Coefficient to default value 0 and 32
                     self.bus.write("I_Coefficient", motor, 0)
                     self.bus.write("D_Coefficient", motor, 42)
-
+                """
                 if motor == "gripper":
                     self.bus.write("Max_Torque_Limit", motor, 500)  # 50% of max torque to avoid burnout
                     self.bus.write("Protection_Current", motor, 250)  # 50% of max current to avoid burnout

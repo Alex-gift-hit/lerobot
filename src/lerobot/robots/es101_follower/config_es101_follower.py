@@ -5,7 +5,7 @@ from lerobot.cameras import CameraConfig
 from ..config import RobotConfig
 
 
-# avoid bi_arm recursive
+# avoid bi_arm recursive parse
 @dataclass
 class Es101FollowerConfigBase:
     # Port to connect to the arm
